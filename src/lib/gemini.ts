@@ -25,7 +25,7 @@ export async function proofreadText(text: string, scenario: ProofreadScenario): 
   const systemInstruction = scenarioPrompts[scenario];
 
   const response = await ai.models.generateContent({
-    model: "gemini-3.1-pro-preview",
+    model: "gemini-3-flash-preview",
     contents: text,
     config: {
       systemInstruction,

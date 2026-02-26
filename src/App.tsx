@@ -46,9 +46,9 @@ export default function App() {
         localStorage.setItem('grammarwhiz_history', JSON.stringify(newHistory));
         return newHistory;
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Proofreading failed:', error);
-      alert('编校失败，请稍后重试。');
+      alert(`编校失败: ${error?.message || '未知错误'}\n\n排查建议：\n1. 环境变量未生效：在 Vercel 填入 Key 后，必须点击 "Deploy" 重新部署一次。\n2. 网络连接失败：前端直接调用 API，国内网络需开启全局代理（确保代理规则包含 googleapis.com）。\n3. API Key 无效或受限。`);
     } finally {
       setIsProcessing(false);
     }
