@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Loader2, Sparkles, Upload, FileText } from 'lucide-react';
+import { Loader2, Sparkles, Upload, FileText, Download, Trash2 } from 'lucide-react';
 import { ProofreadScenario } from '../lib/gemini';
 import * as mammoth from 'mammoth';
 
@@ -101,6 +101,25 @@ export function Editor({ onProofread, isProcessing, initialText = '' }: EditorPr
             <Upload className="w-4 h-4" />
             <span className="hidden sm:inline">导入文档 (txt/docx)</span>
           </button>
+          
+          <div className="h-4 w-px bg-gray-300 hidden sm:block"></div>
+
+          <button
+            onClick={() => {
+              const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `grammarwhiz_export_${new Date().toISOString().slice(0,10)}.txt`;
+              a.click();
+              URL.revokeObjectURL(url);
+            }}
+            disabled={!text.trim() || isProcessing}
+            className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-emerald-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Download className="w-4 h-4" />
+            <span className="hidden sm:inline">导出文本 (txt)</span>
+          </button>
           <input
             type="file"
             ref={fileInputRef}
@@ -108,6 +127,19 @@ export function Editor({ onProofread, isProcessing, initialText = '' }: EditorPr
             accept=".txt,.docx"
             className="hidden"
           />
+          <button
+            onClick={() => {
+              if (window.confirm('确定要清空编辑器中的所有内容吗？')) {
+                setText('');
+                localStorage.removeItem('gw_draft');
+              }
+            }}
+            disabled={!text.trim() || isProcessing}
+            className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            title="清空内容"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
         </div>
         <div className="text-sm text-gray-500 font-mono flex items-center gap-1.5">
           <FileText className="w-4 h-4" />
