@@ -30,7 +30,7 @@ export function DiffViewer({ original, corrected, onAcceptAll, onRejectAll, onCl
       const [operation, text] = diff;
       if (operation === -1) { // DELETE
         return (
-          <del key={index} className="text-gray-400 line-through decoration-gray-900 decoration-2 px-1 mx-0.5 rounded-sm">
+          <del key={index} className="text-red-600 line-through decoration-red-600/50 px-1 mx-0.5 rounded-sm">
             {text}
           </del>
         );
