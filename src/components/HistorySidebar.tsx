@@ -6,6 +6,7 @@ export interface HistoryItem {
   timestamp: number;
   original: string;
   corrected: string;
+  explanations?: string[];
   scenario: ProofreadScenario;
 }
 

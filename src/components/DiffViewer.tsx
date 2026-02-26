@@ -30,14 +30,14 @@ export function DiffViewer({ original, corrected, onAcceptAll, onRejectAll, onCl
       const [operation, text] = diff;
       if (operation === -1) { // DELETE
         return (
-          <del key={index} className="bg-red-100 text-red-800 line-through decoration-red-500/50 px-1 mx-0.5 rounded-sm">
+          <del key={index} className="text-red-600 line-through decoration-red-600/50 px-1 mx-0.5 rounded-sm">
             {text}
           </del>
         );
       }
       if (operation === 1) { // INSERT
         return (
-          <ins key={index} className="bg-emerald-100 text-emerald-800 font-bold no-underline px-1 mx-0.5 rounded-sm">
+          <ins key={index} className="bg-yellow-200 text-gray-900 font-bold no-underline px-1 mx-0.5 rounded-sm">
             {text}
           </ins>
         );

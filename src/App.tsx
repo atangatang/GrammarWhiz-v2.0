@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Editor } from './components/Editor';
 import { DiffViewer } from './components/DiffViewer';
+import { ExplanationBox } from './components/ExplanationBox';
 import { HistorySidebar, HistoryItem } from './components/HistorySidebar';
 import { proofreadText, ProofreadScenario } from './lib/gemini';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,6 +12,7 @@ export default function App() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [originalText, setOriginalText] = useState('');
   const [correctedText, setCorrectedText] = useState<string | null>(null);
+  const [explanations, setExplanations] = useState<string[]>([]);
   const [history, setHistory] = useState<HistoryItem[]>([]);
 
   useEffect(() => {
@@ -28,16 +30,19 @@ export default function App() {
     setIsProcessing(true);
     setOriginalText(text);
     setCorrectedText(null);
+    setExplanations([]);
 
     try {
       const result = await proofreadText(text, scenario);
-      setCorrectedText(result);
+      setCorrectedText(result.corrected);
+      setExplanations(result.explanations);
 
       const newItem: HistoryItem = {
         id: uuidv4(),
         timestamp: Date.now(),
         original: text,
-        corrected: result,
+        corrected: result.corrected,
+        explanations: result.explanations,
         scenario,
       };
 
@@ -57,16 +62,19 @@ export default function App() {
   const handleAcceptAll = (text: string) => {
     setOriginalText(text);
     setCorrectedText(null);
+    setExplanations([]);
     localStorage.setItem('gw_draft', text);
   };
 
   const handleRejectAll = () => {
     setCorrectedText(null);
+    setExplanations([]);
   };
 
   const handleSelectHistory = (item: HistoryItem) => {
     setOriginalText(item.original);
     setCorrectedText(item.corrected);
+    setExplanations(item.explanations || []);
     localStorage.setItem('gw_draft', item.original);
   };
 
@@ -113,6 +121,10 @@ export default function App() {
             </div>
           )}
         </div>
+
+        {correctedText && explanations.length > 0 && (
+          <ExplanationBox explanations={explanations} />
+        )}
       </main>
 
       {/* Footer */}
