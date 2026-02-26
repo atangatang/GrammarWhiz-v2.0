@@ -53,7 +53,13 @@ export default function App() {
       });
     } catch (error: any) {
       console.error('Proofreading failed:', error);
-      alert(`编校失败: ${error?.message || '未知错误'}\n\n排查建议：\n1. 环境变量未生效：在 Vercel 填入 Key 后，必须点击 "Deploy" 重新部署一次。\n2. 网络连接失败：前端直接调用 API，国内网络需开启全局代理（确保代理规则包含 googleapis.com）。\n3. API Key 无效或受限。`);
+      let friendlyMessage = error?.message || '未知错误';
+      
+      if (friendlyMessage.includes('429') || friendlyMessage.includes('quota') || friendlyMessage.includes('RESOURCE_EXHAUSTED')) {
+        friendlyMessage = "操作太快啦！已达到 Google Gemini API 的免费频率限制。请稍等 1 分钟后再试。";
+      }
+
+      alert(`编校失败: ${friendlyMessage}\n\n排查建议：\n1. 频率限制：免费版 API 每分钟请求次数有限，请稍后再试。\n2. 环境变量未生效：在 Vercel 填入 Key 后，必须点击 "Deploy" 重新部署一次。\n3. API Key 无效或受限。`);
     } finally {
       setIsProcessing(false);
     }
