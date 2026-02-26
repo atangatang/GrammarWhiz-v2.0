@@ -4,7 +4,8 @@ export type ProofreadScenario = '新闻出版 (严谨)' | '新媒体 (活泼)' |
 
 const getAIClient = () => {
   // 兼容 Vercel 中设置的 VITE_GEMINI_API_KEY 或默认的 GEMINI_API_KEY
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+  const rawKey = import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+  const apiKey = rawKey ? rawKey.trim() : '';
   
   if (!apiKey) {
     throw new Error("未找到 Gemini API Key，请在环境变量中配置 VITE_GEMINI_API_KEY 或 GEMINI_API_KEY");
