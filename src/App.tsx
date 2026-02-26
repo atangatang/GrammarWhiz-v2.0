@@ -81,27 +81,51 @@ export default function App() {
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
       <Header onToggleHistory={() => setIsHistoryOpen(true)} />
       
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6">
-        <div className="flex-1 min-h-[500px] lg:min-h-0">
-          <Editor
-            onProofread={handleProofread}
-            isProcessing={isProcessing}
-            initialText={originalText}
-          />
+      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col">
+        {/* Hero Section */}
+        <div className="text-center mb-8 mt-4 sm:mt-8">
+          <h2 className="text-2xl sm:text-3xl text-gray-800 font-medium tracking-tight">
+            让你的文字更<span className="text-4xl sm:text-5xl font-bold text-emerald-600 mx-1">专业</span>、更<span className="text-4xl sm:text-5xl font-bold text-emerald-600 mx-1">流畅</span>
+          </h2>
+          <p className="mt-4 text-gray-500 text-sm sm:text-base">
+            基于 Google Gemini 驱动，专为新闻出版、新媒体和公文写作打造的智能编校工具。
+          </p>
         </div>
-        
-        {correctedText && (
-          <div className="flex-1 min-h-[500px] lg:min-h-0 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <DiffViewer
-              original={originalText}
-              corrected={correctedText}
-              onAcceptAll={handleAcceptAll}
-              onRejectAll={handleRejectAll}
-              onClose={() => setCorrectedText(null)}
+
+        <div className="flex flex-col lg:flex-row gap-6 flex-1">
+          <div className="flex-1 min-h-[500px] lg:min-h-0">
+            <Editor
+              onProofread={handleProofread}
+              isProcessing={isProcessing}
+              initialText={originalText}
             />
           </div>
-        )}
+          
+          {correctedText && (
+            <div className="flex-1 min-h-[500px] lg:min-h-0 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <DiffViewer
+                original={originalText}
+                corrected={correctedText}
+                onAcceptAll={handleAcceptAll}
+                onRejectAll={handleRejectAll}
+                onClose={() => setCorrectedText(null)}
+              />
+            </div>
+          )}
+        </div>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-gray-200 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-gray-500 text-center sm:text-left">
+            &copy; 2026 GrammarWhiz Powered by Google Gemini.
+          </p>
+          <p className="text-sm text-gray-500 font-medium text-center sm:text-right">
+            创意设计 :老妖
+          </p>
+        </div>
+      </footer>
 
       {isHistoryOpen && (
         <HistorySidebar
