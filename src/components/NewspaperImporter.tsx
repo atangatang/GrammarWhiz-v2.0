@@ -32,7 +32,11 @@ export function NewspaperImporter({ onImport }: NewspaperImporterProps) {
           onImport(extractedText);
           if (fileInputRef.current) fileInputRef.current.value = '';
         } catch (err: any) {
-          setError(err.message || '解析失败，请重试');
+          let msg = err.message || '解析失败，请重试';
+          if (msg.includes('429') || msg.includes('quota') || msg.includes('RESOURCE_EXHAUSTED')) {
+            msg = "操作太快啦！已达到 Google Gemini API 的免费频率限制。请稍等 1 分钟后再试。";
+          }
+          setError(msg);
         } finally {
           setIsExtracting(false);
         }
