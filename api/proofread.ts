@@ -31,7 +31,8 @@ export default async function handler(req: any, res: any) {
       '公文写作 (规范)': "你是一个资深的政府机关笔杆子。请对以下中文文本进行公文规范校对。重点检查：1. 错别字、标点符号错误。2. 政治性差错审查。3. 确保用词准确、庄重、严谨，符合党政机关公文格式规范。4. 逻辑结构清晰。"
     };
 
-    const systemInstruction = `${scenarioPrompts[scenario as keyof typeof scenarioPrompts]}\n\n请以 JSON 格式返回结果，包含 'corrected' (修改后的全文) 和 'explanations' (修改意见说明列表，解释为什么要这么改)。`;
+    const today = new Date().toISOString().split('T')[0];
+    const systemInstruction = `${scenarioPrompts[scenario as keyof typeof scenarioPrompts]}\n\n今日日期是：${today}。请以此作为时间基准，不要误判正确的日期表述。请以 JSON 格式返回结果，包含 'corrected' (修改后的全文) 和 'explanations' (修改意见说明列表，解释为什么要这么改)。`;
 
     console.log(">>> [API] Calling Gemini API...");
     const response = await ai.models.generateContent({
