@@ -88,7 +88,7 @@ export default function App() {
             让你的文字更<span className="text-4xl sm:text-5xl font-bold text-emerald-600 mx-1">专业</span>、更<span className="text-4xl sm:text-5xl font-bold text-emerald-600 mx-1">流畅</span>
           </h2>
           <p className="mt-4 text-gray-500 text-sm sm:text-base">
-            基于 Google Gemini 驱动，专为新闻出版、新媒体和公文写作打造的智能编校工具。
+            基于 Google Gemini 驱动，专为新闻出版、新媒体和公文写作打造的智能编校工具
           </p>
         </div>
 
@@ -122,7 +122,7 @@ export default function App() {
             &copy; 2026 GrammarWhiz Powered by Google Gemini.
           </p>
           <p className="text-sm text-gray-500 font-medium text-center sm:text-right">
-            创意设计 :老妖
+            制作设计 :老妖
           </p>
         </div>
       </footer>
