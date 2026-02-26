@@ -22,3 +22,22 @@ export async function proofreadText(text: string, scenario: ProofreadScenario): 
   return response.json();
 }
 
+export async function extractNewspaper(pdfBase64: string): Promise<string> {
+  const response = await fetch("/api/extract-newspaper", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ pdfBase64 }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || "PDF 解析失败");
+  }
+
+  const data = await response.json();
+  return data.text;
+}
+
+

@@ -96,9 +96,20 @@ export default function App() {
     }
   };
 
+  const handleImportNewspaper = (text: string) => {
+    setOriginalText(text);
+    setCorrectedText(null);
+    setExplanations([]);
+    // Trigger a draft save if needed
+    localStorage.setItem('gw_draft', text);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
-      <Header onToggleHistory={() => setIsHistoryOpen(true)} />
+      <Header 
+        onToggleHistory={() => setIsHistoryOpen(true)} 
+        onImportNewspaper={handleImportNewspaper}
+      />
       
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col">
         {/* Hero Section */}
