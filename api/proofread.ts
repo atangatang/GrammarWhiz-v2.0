@@ -36,7 +36,7 @@ export default async function handler(req: any, res: any) {
 
     console.log(">>> [API] Calling Gemini API...");
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash-latest",
+      model: "gemini-3-flash-preview",
       contents: text,
       config: {
         systemInstruction,
