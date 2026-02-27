@@ -11,7 +11,7 @@ export function Header({ onToggleHistory }: HeaderProps) {
         <div className="flex items-center gap-2">
           <BookOpenCheck className="w-6 h-6 text-emerald-600" />
           <h1 className="text-xl font-semibold text-gray-900 tracking-tight flex items-center gap-2">
-            GrammarWhiz v2.0
+            GrammarWhiz v2.1.0（26.2.27）
             <span className="hidden sm:inline-block text-gray-500 font-normal text-sm ml-2 border-l border-gray-300 pl-3">中文智能编校工作台</span>
           </h1>
         </div>

@@ -33,9 +33,7 @@ export default function App() {
     setExplanations([]);
 
     try {
-      console.log(">>> [Client] Sending request to /api/proofread...");
       const result = await proofreadText(text, scenario);
-      console.log(">>> [Client] Proofreading success:", result);
       setCorrectedText(result.corrected);
       setExplanations(result.explanations);
 
@@ -54,13 +52,10 @@ export default function App() {
         return newHistory;
       });
     } catch (error: any) {
-      console.error('>>> [Client] Proofreading failed:', error);
+      console.error('Proofreading failed:', error);
       let friendlyMessage = error?.message || '未知错误';
       
-      if (friendlyMessage.includes('Unexpected token') || friendlyMessage.includes('is not valid JSON')) {
-        console.error(">>> [Client] JSON Parse Error. The server might have returned an HTML error page.");
-        friendlyMessage = "接口调用失败（返回了非 JSON 数据）。这通常是由于 Vercel 路由配置问题或后端服务未启动导致的。";
-      } else if (friendlyMessage.includes('429') || friendlyMessage.includes('quota') || friendlyMessage.includes('RESOURCE_EXHAUSTED')) {
+      if (friendlyMessage.includes('429') || friendlyMessage.includes('quota') || friendlyMessage.includes('RESOURCE_EXHAUSTED')) {
         friendlyMessage = "操作太快啦！已达到 Google Gemini API 的免费频率限制。请稍等 1 分钟后再试。";
       }
 
